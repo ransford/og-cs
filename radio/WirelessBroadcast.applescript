@@ -3,7 +3,8 @@ global smooth_every
 set arc_centre to {100, 100}
 set smooth_every to 5
 
-on sine_of(x) -- http://www.apple.com/applescript/guidebook/sbrt/pgs/sbrt.08.htm
+-- Uses the Taylor Expansion of sine to compute sin(x)
+on sine_of(x)
 	repeat until x ³ 0 and x < 360
 		if x ³ 360 then
 			set x to x - 360
@@ -13,7 +14,7 @@ on sine_of(x) -- http://www.apple.com/applescript/guidebook/sbrt/pgs/sbrt.08.htm
 		end if
 	end repeat
 	
-	set x to x * (2 * pi) / 360 --convert from degrees to radians
+	set x to x * (2 * pi) / 360
 	
 	set answer to 0
 	set numerator to x
@@ -29,54 +30,76 @@ on sine_of(x) -- http://www.apple.com/applescript/guidebook/sbrt/pgs/sbrt.08.htm
 	return answer
 end sine_of
 
+-- Computes cos(x)
 on cosine_of(x)
 	return sine_of(x + 90)
 end cosine_of
 
+-- Computes the endpoint coordinates of a ray starting at ORIGIN and projecting at angle ANGLE with length ARM_LENGTH --
 on point_from(origin, angle, arm_length)
-	set x_dist to (my sine_of(angle)) * arm_length
-	set y_dist to (my cosine_of(angle)) * arm_length
+	set x_dist to (my cosine_of(angle)) * arm_length
+	set y_dist to (my sine_of(angle)) * arm_length
 	return {(item 1 of origin) + x_dist, (item 2 of origin) + y_dist}
 end point_from
 
+-- The main routine --
 tell front window of application "OmniGraffle Professional 5"
+	-- Compute the total arc angle, and set up begin_angle and end_angle --
+	display dialog "Enter the size of the arc angle in degrees." default answer "45"
+	set angle to text returned of the result as real
+	set end_angle to angle / 2
+	set begin_angle to -end_angle
 	
-	display dialog "Enter the size of the arc angle. (Between 0 and 360.)" default answer "45"
-	
-	set end_angle to text returned of the result as real
-	
+	-- Get the radius of the smallest arc --
 	display dialog "Enter the smallest arc radius." default answer "50"
-	
 	set arc_minradius to text returned of the result as real
 	
+	-- Get the spacing between arcs, including input validation --
 	display dialog "Enter the arc spacing." default answer "15"
-	
 	set arc_spacing to text returned of the result as real
+	repeat until arc_spacing > 0
+		display dialog "Enter the arc spacing (> 0)." default answer "15"
+		set arc_spacing to text returned of the result as integer
+	end repeat
 	
+	-- Get the number of arcs, including input validation --
 	display dialog "Enter the number of arcs to draw." default answer "6"
-	
 	set arc_howmany to text returned of the result as integer
+	repeat until arc_howmany > 0
+		display dialog "Enter the number of arcs to draw (> 0)." default answer "6"
+		set arc_howmany to text returned of the result as integer
+	end repeat
 	
+	-- Main loop, draws the arcs --
 	set numArcsDrawn to 0
 	set arc_radius to arc_minradius
-	repeat until numArcsDrawn = arc_howmany
-		set angle to 0
-		
-		set start_point to my point_from(arc_centre, 0, arc_radius)
+	repeat until numArcsDrawn ³ arc_howmany
+		-- Compute start and ending segments. Do this outside the loop in case the angle is really small, smaller than smooth_every --
+		set start_point to my point_from(arc_centre, begin_angle, arc_radius)
 		set end_point to my point_from(arc_centre, end_angle, arc_radius)
 		
-		set intermediate_points to {start_point}
-		repeat until angle ³ end_angle - smooth_every
-			set angle to angle + smooth_every
-			set intermediate_points to intermediate_points & {my point_from(arc_centre, angle, arc_radius)}
+		-- Compute the points that will be in the arc --
+		---- Start point
+		set arc_points to {start_point}
+		
+		---- Loop over points between start and end
+		repeat with angle from begin_angle to (end_angle - smooth_every) by smooth_every
+			set end of arc_points to my point_from(arc_centre, angle, arc_radius)
 		end repeat
 		
+		---- End point
+		set end of arc_points to end_point
+		
+		-- Add this arc to the canvas as a new line --
 		tell canvas 1
-			make new line at beginning of graphics with properties {point list:intermediate_points & {end_point}, draws shadow:false}
+			make new line at beginning of graphics with properties {line type:curved, point list:arc_points, draws shadow:false}
 		end tell
 		
+		-- Update loop counters --
 		set numArcsDrawn to numArcsDrawn + 1
 		set arc_radius to arc_radius + arc_spacing
 	end repeat
 	
+	-- Group all the arcs together, and select the group --
+	set selection to {assemble (graphics 1 thru arc_howmany)}
 end tell
