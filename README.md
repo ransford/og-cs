@@ -4,8 +4,8 @@ OmniGraffle: http://www.omnigroup.com/
 
 CONTENTS
 --------
-`arc_bits`: Utilities for drawing individual arcs
-`radio`: Utilities for drawing radio phenomena (e.g., radio waves)
+* `arc_bits`: Utilities for drawing individual arcs
+* `radio`: Utilities for drawing radio phenomena (e.g., radio waves)
 
 INSTALLATION
 ------------
