@@ -5,11 +5,11 @@ set smooth_every to 5
 
 -- Uses the Taylor Expansion of sine to compute sin(x)
 on sine_of(x)
-	repeat until x >= 0 and x < 360
-		if x >= 360 then
+	repeat until x is greater than or equal to 0 and x is less than 360
+		if x is greater than or equal to 360 then
 			set x to x - 360
 		end if
-		if x < 0 then
+		if x is less than 0 then
 			set x to x + 360
 		end if
 	end repeat
@@ -57,7 +57,7 @@ tell front window of application "OmniGraffle Professional 5"
 	-- Get the spacing between arcs, including input validation --
 	display dialog "Enter the arc spacing." default answer "15"
 	set arc_spacing to text returned of the result as real
-	repeat until arc_spacing > 0
+	repeat until arc_spacing is greater than 0
 		display dialog "Enter the arc spacing (> 0)." default answer "15"
 		set arc_spacing to text returned of the result as integer
 	end repeat
@@ -65,7 +65,7 @@ tell front window of application "OmniGraffle Professional 5"
 	-- Get the number of arcs, including input validation --
 	display dialog "Enter the number of arcs to draw." default answer "6"
 	set arc_howmany to text returned of the result as integer
-	repeat until arc_howmany > 0
+	repeat until arc_howmany is greater than 0
 		display dialog "Enter the number of arcs to draw (> 0)." default answer "6"
 		set arc_howmany to text returned of the result as integer
 	end repeat
@@ -73,7 +73,7 @@ tell front window of application "OmniGraffle Professional 5"
 	-- Main loop, draws the arcs --
 	set numArcsDrawn to 0
 	set arc_radius to arc_minradius
-	repeat until numArcsDrawn >= arc_howmany
+	repeat until numArcsDrawn is greater than or equal to arc_howmany
 		-- Compute start and ending segments. Do this outside the loop in case the angle is really small, smaller than smooth_every --
 		set start_point to my point_from(arc_centre, begin_angle, arc_radius)
 		set end_point to my point_from(arc_centre, end_angle, arc_radius)
