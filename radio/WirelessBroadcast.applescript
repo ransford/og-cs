@@ -4,8 +4,8 @@ set arc_centre to {100, 100}
 set smooth_every to 5
 
 on sine_of(x) -- http://www.apple.com/applescript/guidebook/sbrt/pgs/sbrt.08.htm
-	repeat until x ³ 0 and x < 360
-		if x ³ 360 then
+	repeat until x >= 0 and x < 360
+		if x >= 360 then
 			set x to x - 360
 		end if
 		if x < 0 then
@@ -66,7 +66,7 @@ tell front window of application "OmniGraffle Professional 5"
 		set end_point to my point_from(arc_centre, end_angle, arc_radius)
 		
 		set intermediate_points to {start_point}
-		repeat until angle ³ end_angle - smooth_every
+		repeat until angle >= end_angle - smooth_every
 			set angle to angle + smooth_every
 			set intermediate_points to intermediate_points & {my point_from(arc_centre, angle, arc_radius)}
 		end repeat
