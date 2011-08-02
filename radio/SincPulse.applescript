@@ -61,13 +61,15 @@ tell front window of application "OmniGraffle 5"
 	set wave_start_y to item 2 in wave_start
 	set wave_points to {{wave_start_x, wave_start_y - wave_height}}
 	repeat with wave_angle from smooth_every to (360 * wave_count - smooth_every) by smooth_every
-		set dx to wave_angle / 360.0 * wave_length
-		set dy to -(my sine_of(wave_angle)) * wave_height / (wave_angle * 2 * pi / 360)
+		set waves to wave_angle / 360.0
+		set dx to waves * wave_length
+		set dy to -(my sine_of(wave_angle)) * wave_height / (waves * 2 * pi)
 		set beginning of wave_points to {wave_start_x - dx, wave_start_y + dy}
 		set end of wave_points to {wave_start_x + dx, wave_start_y + dy}
 	end repeat
+	-- Last point --
 	set dx to wave_count * wave_length
-	set dy to -(my sine_of(360 * wave_count)) * wave_height / (wave_angle * 2 * pi / 360)
+	set dy to -(my sine_of(360 * wave_count)) * wave_height / (wave_count * 2 * pi)
 	set beginning of wave_points to {wave_start_x - dx, wave_start_y + dy}
 	set end of wave_points to {wave_start_x + dx, wave_start_y + dy}
 	
