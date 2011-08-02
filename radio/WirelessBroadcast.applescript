@@ -101,5 +101,8 @@ tell front window of application "OmniGraffle Professional 5"
 	end repeat
 	
 	-- Group all the arcs together, and select the group --
-	set selection to {assemble (graphics 1 thru arc_howmany)}
+	set arc_group to assemble (graphics 1 thru arc_howmany)
+	set connect to group only of arc_group to true
+	set magnets of arc_group to {{1, 0}, {-1, 0}}
+	set selection to {arc_group}
 end tell
