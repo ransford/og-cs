@@ -59,17 +59,17 @@ tell front window of application "OmniGraffle 5"
 	-- Main loop, draws the waves --
 	set wave_start_x to item 1 in wave_start
 	set wave_start_y to item 2 in wave_start
-	set wave_points to {}
-	repeat with wave_angle from -360 * wave_count to 360 * wave_count by smooth_every
+	set wave_points to {{wave_start_x, wave_start_y - wave_height}}
+	repeat with wave_angle from smooth_every to (360 * wave_count - smooth_every) by smooth_every
 		set dx to wave_angle / 360.0 * wave_length
-		set wave_x to wave_start_x + dx
-		if wave_angle is equal to 0 then
-			set wave_y to wave_start_y - wave_height
-		else
-			set wave_y to wave_start_y - (my sine_of(wave_angle)) * wave_height / (wave_angle * 2 * pi / 360)
-		end if
-		set end of wave_points to {wave_x, wave_y}
+		set dy to -(my sine_of(wave_angle)) * wave_height / (wave_angle * 2 * pi / 360)
+		set beginning of wave_points to {wave_start_x - dx, wave_start_y + dy}
+		set end of wave_points to {wave_start_x + dx, wave_start_y + dy}
 	end repeat
+	set dx to wave_count * wave_length
+	set dy to -(my sine_of(360 * wave_count)) * wave_height / (wave_angle * 2 * pi / 360)
+	set beginning of wave_points to {wave_start_x - dx, wave_start_y + dy}
+	set end of wave_points to {wave_start_x + dx, wave_start_y + dy}
 	
 	-- Add this wave to the canvas as a new line --
 	tell canvas 1
