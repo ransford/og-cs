@@ -59,7 +59,7 @@ tell front window of application "OmniGraffle Professional 5"
 	set arc_spacing to text returned of the result as real
 	repeat until arc_spacing is greater than 0
 		display dialog "Enter the arc spacing (> 0)." default answer "15"
-		set arc_spacing to text returned of the result as integer
+		set arc_spacing to text returned of the result as real
 	end repeat
 	
 	-- Get the number of arcs, including input validation --
