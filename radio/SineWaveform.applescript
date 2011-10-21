@@ -37,7 +37,7 @@ tell front window of application "OmniGraffle 5"
 	set wave_length to text returned of the result as real
 	repeat until wave_length is greater than 5
 		display dialog "Enter the wavelength (> 5)." default answer "30"
-		set wave_length to text returned of the result as integer
+		set wave_length to text returned of the result as real
 	end repeat
 	
 	-- Get the wave height --
@@ -45,7 +45,15 @@ tell front window of application "OmniGraffle 5"
 	set wave_height to text returned of the result as real
 	repeat until wave_height is greater than 2
 		display dialog "Enter the wave height (> 2)." default answer "15"
-		set wave_height to text returned of the result as integer
+		set wave_height to text returned of the result as real
+	end repeat
+	
+	-- Get the wave offset --
+	display dialog "Enter the wave offset in degrees." default answer "0"
+	set wave_offset to text returned of the result as real
+	repeat until wave_offset is greater than or equal to 0 and wave_offset is less than 360
+		display dialog "Enter the wave offset in degrees (0 to 359)." default answer "0"
+		set wave_offset to text returned of the result as real
 	end repeat
 	
 	-- Get the number of wavelengths --
@@ -53,7 +61,7 @@ tell front window of application "OmniGraffle 5"
 	set wave_count to text returned of the result as real
 	repeat until wave_count is greater than 0
 		display dialog "Enter the number of waves (> 0)." default answer "3"
-		set wave_count to text returned of the result as integer
+		set wave_count to text returned of the result as real
 	end repeat
 	
 	-- Main loop, draws the waves --
@@ -62,11 +70,11 @@ tell front window of application "OmniGraffle 5"
 	set wave_points to {}
 	repeat with wave_angle from 0 to (360 * wave_count - smooth_every) by smooth_every
 		set wave_x to wave_start_x + wave_angle / 360.0 * wave_length
-		set wave_y to wave_start_y - (my sine_of(wave_angle)) * wave_height
+		set wave_y to wave_start_y - (my sine_of(wave_angle + wave_offset)) * wave_height
 		set end of wave_points to {wave_x, wave_y}
 	end repeat
-	set wave_x to wave_start_x + wave_count  * wave_length
-	set wave_y to wave_start_y - (my sine_of(360*wave_count)) * wave_height
+	set wave_x to wave_start_x + wave_count * wave_length
+	set wave_y to wave_start_y - (my sine_of(360 * wave_count + wave_offset)) * wave_height
 	set end of wave_points to {wave_x, wave_y}
 	
 	-- Add this wave to the canvas as a new line --
