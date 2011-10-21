@@ -37,7 +37,7 @@ tell front window of application "OmniGraffle 5"
 	set wave_length to text returned of the result as real
 	repeat until wave_length is greater than 5
 		display dialog "Enter the wavelength (> 5)." default answer "30"
-		set wave_length to text returned of the result as integer
+		set wave_length to text returned of the result as real
 	end repeat
 	
 	-- Get the wave height --
@@ -45,7 +45,7 @@ tell front window of application "OmniGraffle 5"
 	set wave_height to text returned of the result as real
 	repeat until wave_height is greater than 2
 		display dialog "Enter the wave height (> 2)." default answer "60"
-		set wave_height to text returned of the result as integer
+		set wave_height to text returned of the result as real
 	end repeat
 	
 	-- Get the number of wavelengths --
@@ -53,7 +53,7 @@ tell front window of application "OmniGraffle 5"
 	set wave_count to text returned of the result as real
 	repeat until wave_count is greater than 0
 		display dialog "Enter the number of waves on each side (> 0)." default answer "3"
-		set wave_count to text returned of the result as integer
+		set wave_count to text returned of the result as real
 	end repeat
 	
 	-- Main loop, draws the waves --
