@@ -43,7 +43,7 @@ on point_from(origin, angle, arm_length)
 end point_from
 
 -- The main routine --
-tell front window of application "OmniGraffle Professional 5"
+tell front window of application "OmniGraffle"
 	-- Compute the total arc angle, and set up begin_angle and end_angle --
 	display dialog "Enter the size of the arc angle in degrees." default answer "45"
 	set angle to text returned of the result as real
