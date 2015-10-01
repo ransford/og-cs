@@ -3,7 +3,7 @@ global smooth_every
 set wave_start to {100.0, 100.0}
 
 -- The main routine --
-tell front window of application "OmniGraffle 5"
+tell front window of application "OmniGraffle"
 	-- Get the wavelength --
 	display dialog "Enter the width." default answer "15"
 	set wave_width to text returned of the result as real

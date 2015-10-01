@@ -9,11 +9,13 @@ CONTENTS
 
 INSTALLATION
 ------------
-OmniGraffle scripts belong in ~/Library/Scripts/Applications/OmniGraffle Pro.
+OmniGraffle scripts belong in ~/Library/Scripts/Applications/OmniGraffle.
 The easiest way to install these scripts after cloning the og-cs repository is:
 
-    $ cd "~/Library/Scripts/Applications/OmniGraffle Pro"
+    $ mkdir -p ~/Library/Scripts/Applications/OmniGraffle
+    $ cd ~/Library/Scripts/Applications/OmniGraffle
     $ ln -s /path/to/og-cs .
 
 Then make sure you see the script menu in the menu bar when you're in
-OmniGraffle.  If you don't see it, open the AppleScript Editor and enable it.
+OmniGraffle.  If you don't see it, open the AppleScript Editor and enable it
+(Script Editor / Preferences / Show Script menu in menu bar).

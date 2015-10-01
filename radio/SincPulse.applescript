@@ -31,7 +31,7 @@ on sine_of(x)
 end sine_of
 
 -- The main routine --
-tell front window of application "OmniGraffle 5"
+tell front window of application "OmniGraffle"
 	-- Get the wavelength --
 	display dialog "Enter the wavelength." default answer "30"
 	set wave_length to text returned of the result as real
